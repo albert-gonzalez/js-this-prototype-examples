@@ -1,24 +1,24 @@
 export class Polygon {
     constructor(label) {
         if (typeof label !== 'string') {
-            throw Error('Label is required and must be an string')
+            throw Error('Label is required and must be an string');
         }
 
         if (label.length === 0) {
-            throw Error('Label can not be empty')
+            throw Error('Label can not be empty');
         }
 
         this.label = label;
     }
 
     area() {
-        throw Error('Area only calculable in defined shapes')
+        throw Error('Area only calculable in defined shapes');
     }
 
     properties() {
         return {
-            label: this.label
-        }
+            label: this.label,
+        };
     }
 }
 
@@ -27,7 +27,6 @@ export class Square extends Polygon {
         super(label);
 
         guardFromInvalidNumber('side', side);
-
 
         this.side = side;
     }
@@ -39,14 +38,12 @@ export class Square extends Polygon {
     properties() {
         return {
             label: this.label,
-            side: this.side
-        }
+            side: this.side,
+        };
     }
 }
 
-export class Triangle {
-
-}
+export class Triangle {}
 
 function guardFromInvalidNumber(name, value) {
     if (typeof value !== 'number') {
@@ -54,6 +51,6 @@ function guardFromInvalidNumber(name, value) {
     }
 
     if (value <= 0) {
-        throw Error(`${name} must be greater than 0`)
+        throw Error(`${name} must be greater than 0`);
     }
 }

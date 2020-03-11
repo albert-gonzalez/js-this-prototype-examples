@@ -1,4 +1,4 @@
-import { Polygon, Square, Triangle } from './prototype.class.exercise';
+import { Polygon, Square, Triangle } from './prototype.function.exercise';
 import each from 'jest-each';
 
 const SOME_LABEL = 'some label';
