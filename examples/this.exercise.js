@@ -1,7 +1,5 @@
 export const ADD = 'add';
 
-export default function () {
-    return {
-
-    }
+export default function() {
+    return {};
 }

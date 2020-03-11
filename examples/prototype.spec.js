@@ -1,95 +1,109 @@
 describe('Prototype', () => {
     describe('Introduction', () => {
-       test('Object.createNew is used to make a link between objects. This link is made with the Prototype property', () => {
-           const anotherObject = {
-               a: 2
-           };
+        test('Object.createNew is used to make a link between objects. This link is made with the Prototype property', () => {
+            const anotherObject = {
+                a: 2,
+            };
 
             // create an object linked to `anotherObject`
-           const myObject = Object.create( anotherObject );
+            const myObject = Object.create(anotherObject);
 
-           expect(myObject.a).toEqual(2);
-           expect(Object.getPrototypeOf(myObject)).toEqual(anotherObject);
-           expect(Object.getPrototypeOf(myObject)).toEqual(myObject.__proto__);
-       });
+            expect(myObject.a).toEqual(2);
+            expect(Object.getPrototypeOf(myObject)).toEqual(anotherObject);
+            expect(Object.getPrototypeOf(myObject)).toEqual(myObject.__proto__);
+        });
 
-       test('in keyword looks if the property exists in the object or in the prototype chain', () => {
-           const anotherObject = {
-               a: 2
-           };
+        test('in keyword looks if the property exists in the object or in the prototype chain', () => {
+            const anotherObject = {
+                a: 2,
+            };
 
-           const myObject = Object.create( anotherObject );
-           myObject.b = 3;
+            const myObject = Object.create(anotherObject);
+            myObject.b = 3;
 
-           let stringOfKeys = '';
-           for (let k in myObject) {
-               stringOfKeys += `${k} `;
-           }
+            let stringOfKeys = '';
+            for (let k in myObject) {
+                stringOfKeys += `${k} `;
+            }
 
-           expect(stringOfKeys).toEqual('b a ');
-           expect('a' in myObject).toBeTruthy();
-       });
+            expect(stringOfKeys).toEqual('b a ');
+            expect('a' in myObject).toBeTruthy();
+        });
 
-       test('You can build a prototype chain. All properties can be accessible in this chain', () =>{
-           const firstObject = {
-               a: 2
-           };
+        test('You can build a prototype chain. All properties can be accessible in this chain', () => {
+            const firstObject = {
+                a: 2,
+            };
 
-           const myObject = Object.create( firstObject );
-           myObject.b = 3;
+            const myObject = Object.create(firstObject);
+            myObject.b = 3;
 
-           const lastObject = Object.create(myObject);
-           lastObject.c = 4;
+            const lastObject = Object.create(myObject);
+            lastObject.c = 4;
 
-           expect(lastObject.a).toEqual(2);
-           expect(lastObject.b).toEqual(3);
-           expect(lastObject.c).toEqual(4);
+            expect(lastObject.a).toEqual(2);
+            expect(lastObject.b).toEqual(3);
+            expect(lastObject.c).toEqual(4);
 
-           expect(Object.getPrototypeOf(Object.getPrototypeOf(lastObject))).toEqual(firstObject);
+            expect(
+                Object.getPrototypeOf(Object.getPrototypeOf(lastObject))
+            ).toEqual(firstObject);
 
-           // All objects inherit from Object.prototype
-           expect(Object.getPrototypeOf(firstObject)).toEqual(Object.prototype);
-       });
+            // All objects inherit from Object.prototype
+            expect(Object.getPrototypeOf(firstObject)).toEqual(
+                Object.prototype
+            );
+        });
 
-       test('Properties can be shadowed (overridden), but there are some exceptions', () => {
-           const firstObject = {
-               a: 2
-           };
+        test('Properties can be shadowed (overridden), but there are some exceptions', () => {
+            const firstObject = {
+                a: 2,
+            };
 
-           Object.defineProperty(firstObject, 'readOnly', { writable: false, value: 'firstValue' });
-           Object.defineProperty(firstObject, 'setter', { set: function (value) { this.setValue = value }});
+            Object.defineProperty(firstObject, 'readOnly', {
+                writable: false,
+                value: 'firstValue',
+            });
+            Object.defineProperty(firstObject, 'setter', {
+                set: function(value) {
+                    this.setValue = value;
+                },
+            });
 
-           const myObject = Object.create( firstObject );
-           myObject.a = 3;
-           myObject.readOnly = 'myValue';
-           myObject.setter = 'mySetValue';
+            const myObject = Object.create(firstObject);
+            myObject.a = 3;
+            myObject.readOnly = 'myValue';
+            myObject.setter = 'mySetValue';
 
-           expect(myObject.a).toEqual(3);
-           expect(firstObject.a).toEqual(2);
+            expect(myObject.a).toEqual(3);
+            expect(firstObject.a).toEqual(2);
 
-           // If a property is read-only, you can not override it in the new object. With strict mode it will throw an exception
-           expect(myObject.readOnly).toEqual('firstValue');
-           expect(myObject.setValue).toEqual('mySetValue');
-           expect(myObject.setter).toBeUndefined();
-           expect(typeof Object.getOwnPropertyDescriptor(firstObject, 'setter').set).toBe('function');
+            // If a property is read-only, you can not override it in the new object. With strict mode it will throw an exception
+            expect(myObject.readOnly).toEqual('firstValue');
+            expect(myObject.setValue).toEqual('mySetValue');
+            expect(myObject.setter).toBeUndefined();
+            expect(
+                typeof Object.getOwnPropertyDescriptor(firstObject, 'setter')
+                    .set
+            ).toBe('function');
 
-           // With define property we can shadow any variable
-           Object.defineProperty(myObject, 'readOnly', { value: 'myValue' });
-           expect(myObject.readOnly).toEqual('myValue');
-       });
+            // With define property we can shadow any variable
+            Object.defineProperty(myObject, 'readOnly', { value: 'myValue' });
+            expect(myObject.readOnly).toEqual('myValue');
+        });
 
-       test('a property can be implicitly shadowed', () => {
-           const firstObject = {
-               a: 2
-           };
+        test('a property can be implicitly shadowed', () => {
+            const firstObject = {
+                a: 2,
+            };
 
-           const myObject = Object.create( firstObject );
+            const myObject = Object.create(firstObject);
 
-           myObject.a++; // oops, implicit shadowing!
+            myObject.a++; // oops, implicit shadowing!
 
-           expect(firstObject.a).toEqual(2);
-           expect(myObject.a).toEqual(3);
-       });
+            expect(firstObject.a).toEqual(2);
+            expect(myObject.a).toEqual(3);
+        });
     });
 
     describe('Class with new operator in functions', () => {
@@ -100,7 +114,7 @@ describe('Prototype', () => {
 
             let a = new Foo();
 
-            expect(Object.getPrototypeOf( a )).toEqual(Foo.prototype);
+            expect(Object.getPrototypeOf(a)).toEqual(Foo.prototype);
 
             // deprecated way to access prototype
             expect(a.__proto__).toEqual(Foo.prototype);
@@ -113,13 +127,13 @@ describe('Prototype', () => {
             expect(a).toEqual({ someProperty: 'prop' });
         });
 
-        describe('The prototype is not copied to the instances, it\'s only a link (object reference)', () => {
+        describe("The prototype is not copied to the instances, it's only a link (object reference)", () => {
             function Foo(name) {
                 this.name = name;
             }
 
-            var a = new Foo( "a" );
-            var b = new Foo( "b" );
+            var a = new Foo('a');
+            var b = new Foo('b');
 
             Foo.prototype.myName = function() {
                 return this.name;
@@ -131,10 +145,10 @@ describe('Prototype', () => {
         });
 
         describe('constructor property can not be trusted. Can change depending on how the prototype is assigned', () => {
-            function Foo() { }
-            function Bar() { }
+            function Foo() {}
+            function Bar() {}
 
-            Foo.prototype = { }; // create a new prototype object
+            Foo.prototype = {}; // create a new prototype object
 
             var a1 = new Foo();
             var b1 = new Bar();
@@ -164,14 +178,14 @@ describe('Prototype', () => {
                 return this.name;
             };
 
-            function Worker(name,label) {
-                Person.call( this, name );
+            function Worker(name, label) {
+                Person.call(this, name);
                 this.label = label;
             }
 
             // here, we make a new `Worker.prototype`
             // linked to `Person.prototype`
-            Worker.prototype = Object.create( Person.prototype );
+            Worker.prototype = Object.create(Person.prototype);
 
             // Beware! Now `Worker.prototype.constructor` is gone,
             // and might need to be manually "fixed" if you're
@@ -180,7 +194,7 @@ describe('Prototype', () => {
                 return this.label;
             };
 
-            const worker = new Worker( "a", "obj a" );
+            const worker = new Worker('a', 'obj a');
 
             expect(worker.myName()).toEqual('a');
             expect(worker.myLabel()).toEqual('obj a');
@@ -200,20 +214,20 @@ describe('Prototype', () => {
                 return this.name;
             };
 
-            function Worker(name,label) {
-                Person.call( this, name );
+            function Worker(name, label) {
+                Person.call(this, name);
                 this.label = label;
             }
 
             // here, we make a new `Worker.prototype`
             // linked to `Person.prototype`
-            Object.setPrototypeOf(Worker.prototype, Person.prototype );
+            Object.setPrototypeOf(Worker.prototype, Person.prototype);
 
             Worker.prototype.myLabel = function() {
                 return this.label;
             };
 
-            const worker = new Worker( "a", "obj a" );
+            const worker = new Worker('a', 'obj a');
 
             expect(worker.myName()).toEqual('a');
             expect(worker.myLabel()).toEqual('obj a');
@@ -250,7 +264,7 @@ describe('Prototype', () => {
                 }
             }
 
-            const worker = new Worker( 'a', 'obj a' );
+            const worker = new Worker('a', 'obj a');
 
             expect(worker.myName()).toEqual('a');
             expect(worker.myLabel()).toEqual('obj a');
@@ -262,8 +276,8 @@ describe('Prototype', () => {
             expect(worker.constructor).toEqual(Worker);
 
             // Class hides the prototype, but internally still uses the prototype
-            Person.prototype.myName = function () {
-                return 'fixed Name'
+            Person.prototype.myName = function() {
+                return 'fixed Name';
             };
 
             expect(worker.myName()).toEqual('fixed Name');
@@ -272,14 +286,14 @@ describe('Prototype', () => {
 
     describe('Composition', () => {
         describe('We can compose objects instead of making inheritance', () => {
-            const Person = (name) => ({
+            const Person = name => ({
                 name,
                 myName() {
                     return this.name;
                 },
                 overrideMe() {
                     return 'Person';
-                }
+                },
             });
 
             const Worker = (name, label) => ({
@@ -290,7 +304,7 @@ describe('Prototype', () => {
                 },
                 overrideMe() {
                     return 'Worker';
-                }
+                },
             });
 
             const worker = Worker('a', 'obj a');

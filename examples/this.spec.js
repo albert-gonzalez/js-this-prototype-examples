@@ -10,18 +10,18 @@ describe('this keyword', () => {
             }
 
             var me = {
-                name: "Kyle"
+                name: 'Kyle',
             };
 
             var you = {
-                name: "Reader"
+                name: 'Reader',
             };
 
-            expect(identify.call( me )).toEqual('KYLE'); // KYLE
-            expect(identify.call( you )).toEqual('READER'); // READER
+            expect(identify.call(me)).toEqual('KYLE'); // KYLE
+            expect(identify.call(you)).toEqual('READER'); // READER
 
-            expect(speak.call( me )).toEqual("Hello, I'm KYLE"); // Hello, I'm KYLE
-            expect(speak.call( you )).toEqual("Hello, I'm READER");
+            expect(speak.call(me)).toEqual("Hello, I'm KYLE"); // Hello, I'm KYLE
+            expect(speak.call(you)).toEqual("Hello, I'm READER");
         });
 
         test('you can pass the context and get the same behaviour', () => {
@@ -30,19 +30,19 @@ describe('this keyword', () => {
             }
 
             function speak(context) {
-                return "Hello, I'm " + identify( context );
+                return "Hello, I'm " + identify(context);
             }
 
             var me = {
-                name: "Kyle"
+                name: 'Kyle',
             };
 
             var you = {
-                name: "Reader"
+                name: 'Reader',
             };
 
-            expect(identify( you )).toEqual('READER'); // READER
-            expect(speak( me )).toEqual("Hello, I'm KYLE"); // Hello, I'm KYLE
+            expect(identify(you)).toEqual('READER'); // READER
+            expect(speak(me)).toEqual("Hello, I'm KYLE"); // Hello, I'm KYLE
         });
     });
 
@@ -64,9 +64,9 @@ describe('this keyword', () => {
 
                 var i;
 
-                for (i=0; i<10; i++) {
+                for (i = 0; i < 10; i++) {
                     if (i > 5) {
-                        foo( i );
+                        foo(i);
                     }
                 }
 
@@ -101,9 +101,9 @@ describe('this keyword', () => {
 
                 var i;
 
-                for (i=0; i<10; i++) {
+                for (i = 0; i < 10; i++) {
                     if (i > 5) {
-                        foo( i );
+                        foo(i);
                     }
                 }
 
@@ -128,9 +128,9 @@ describe('this keyword', () => {
 
                 var i;
 
-                for (i=0; i<10; i++) {
+                for (i = 0; i < 10; i++) {
                     if (i > 5) {
-                        foo.call(foo, i );
+                        foo.call(foo, i);
                     }
                 }
 
@@ -143,7 +143,7 @@ describe('this keyword', () => {
         });
 
         describe('Its Scope', () => {
-            test('A common misconception about the meaning of this is that it somehow refers to the function\'s scope', () => {
+            test("A common misconception about the meaning of this is that it somehow refers to the function's scope", () => {
                 window.foo = function foo() {
                     var a = 2;
 
@@ -156,7 +156,7 @@ describe('this keyword', () => {
 
                 expect(foo()).toBeUndefined();
             });
-        })
+        });
     });
 
     describe('What is this?', () => {
@@ -166,13 +166,13 @@ describe('this keyword', () => {
             }
 
             const someContext = {
-                foo
+                foo,
             };
 
             expect(foo()).toEqual(window);
             expect(someContext.foo()).toEqual(someContext);
             expect(someContext.foo.call(foo)).toEqual(foo);
-        })
+        });
     });
 
     describe('Implicitly lost', () => {
@@ -186,7 +186,7 @@ describe('this keyword', () => {
             }
 
             const context = {
-                foo
+                foo,
             };
 
             expect(functionWithCallback(context.foo)).toEqual(window);
@@ -212,11 +212,11 @@ describe('this keyword', () => {
 
             const context = {
                 foo,
-                a: 2
+                a: 2,
             };
 
             function bar() {
-                return foo.call(context) // equals to context.call()
+                return foo.call(context); // equals to context.call()
             }
 
             function functionWithCallback(cb) {
@@ -233,13 +233,13 @@ describe('this keyword', () => {
 
             const context = {
                 foo,
-                a: 2
+                a: 2,
             };
 
             // Simple bind
             function bind(fn, obj) {
                 return function() {
-                    return fn.apply( obj, arguments );
+                    return fn.apply(obj, arguments);
                 };
             }
 
@@ -259,20 +259,20 @@ describe('this keyword', () => {
             function foo(el) {
                 return {
                     el,
-                    id: this.id
+                    id: this.id,
                 };
             }
 
             var context = {
-                id: "awesome"
+                id: 'awesome',
             };
 
-            const mappedArray = [1, 2, 3].map( foo, context );
+            const mappedArray = [1, 2, 3].map(foo, context);
 
             expect(mappedArray).toEqual([
-                {"el": 1, "id": "awesome"},
-                {"el": 2, "id": "awesome"},
-                {"el": 3, "id": "awesome"}
+                { el: 1, id: 'awesome' },
+                { el: 2, id: 'awesome' },
+                { el: 3, id: 'awesome' },
             ]);
         });
 
@@ -281,7 +281,6 @@ describe('this keyword', () => {
             2- the newly constructed object is [[Prototype]]-linked
             3- the newly constructed object is set as the this binding for that function call
             4- unless the function returns its own alternate object, the new-invoked function call will automatically return the newly constructed object`, () => {
-
             let theFunctionWasExecuted = false;
 
             function SomeClass(param) {
@@ -290,44 +289,44 @@ describe('this keyword', () => {
             }
 
             SomeClass.prototype = {
-                getProperty (propertyName) {
+                getProperty(propertyName) {
                     return this[propertyName];
-                }
+                },
             };
 
-            let bar = new SomeClass( 2 );
+            let bar = new SomeClass(2);
 
             expect(theFunctionWasExecuted).toBeTruthy();
             expect(bar.myParam).toEqual(2);
             expect(Object.getPrototypeOf(bar)).toEqual(SomeClass.prototype);
             expect(bar.getProperty('myParam')).toEqual(2);
-        })
+        });
     });
 
     describe('Lexical this -> Arrow Functions', () => {
         test('An arrow function captures the context of the function where they are defined. Inside this arrow function, this will always keep this context', () => {
             function foo() {
                 // return an arrow function
-                return (a) => {
+                return a => {
                     // `this` here is lexically adopted from `foo()`
                     return this.a;
                 };
             }
 
             let obj1 = {
-                a: 2
+                a: 2,
             };
 
             let obj2 = {
-                a: 3
+                a: 3,
             };
 
-            let bar = foo.call( obj1 );
-            expect(bar.call( obj2 )).toEqual(2);
+            let bar = foo.call(obj1);
+            expect(bar.call(obj2)).toEqual(2);
         });
 
         test('Arrow functions allow to call safely an object this', () => {
-            const MyClass = function () {
+            const MyClass = function() {
                 this.param = 123;
 
                 this.normalFunction = function() {
@@ -335,8 +334,8 @@ describe('this keyword', () => {
                 };
 
                 this.arrowFunction = () => {
-                    return this.param
-                }
+                    return this.param;
+                };
             };
 
             const instance = new MyClass();
@@ -345,7 +344,9 @@ describe('this keyword', () => {
                 return fn();
             }
 
-            expect(executeFnAndReturn(instance.normalFunction)).toEqual(undefined);
+            expect(executeFnAndReturn(instance.normalFunction)).toEqual(
+                undefined
+            );
             expect(executeFnAndReturn(instance.arrowFunction)).toEqual(123);
         });
     });

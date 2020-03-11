@@ -1,4 +1,4 @@
-import calculatorCreator, {ADD} from './this.exercise';
+import calculatorCreator, { ADD } from './this.exercise';
 
 describe('calculator', () => {
     let calculator;
@@ -123,7 +123,7 @@ describe('calculator', () => {
 
     test('should be able to be copied and use another object as context', () => {
         const otherCalculator = {
-            ...calculator
+            ...calculator,
         };
 
         otherCalculator.pushNumber(3);
