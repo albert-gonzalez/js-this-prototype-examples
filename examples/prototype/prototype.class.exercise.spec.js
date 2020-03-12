@@ -108,7 +108,7 @@ describe('square polygon', () => {
             [10, 100],
             [150, 22500],
         ]).test(
-            'return the area of a square with side %d',
+            'should return the area of a square with side %d',
             (side, expectedArea) => {
                 expect(new Square({ label: SOME_LABEL, side }).area()).toEqual(
                     expectedArea
@@ -231,7 +231,7 @@ describe('triangle polygon', () => {
             [10, 2, 10],
             [150, 98, 7350],
         ]).test(
-            'return the area of a triangle with base %d and height %d',
+            'should return the area of a triangle with base %d and height %d',
             (base, height, expectedArea) => {
                 expect(
                     new Triangle({ label: SOME_LABEL, base, height }).area()
