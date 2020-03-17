@@ -13,6 +13,12 @@ describe('polygon', () => {
         polygon = new Polygon(SOME_LABEL);
     });
 
+    describe('type', () => {
+        test('it should be a class', () => {
+            expect(Polygon.toString()).toContain('class Polygon');
+        });
+    });
+
     describe('constructor', () => {
         test('should set a label to the polygon instance', () => {
             expect(polygon.label).toEqual(SOME_LABEL);
@@ -53,6 +59,12 @@ describe('square polygon', () => {
 
     beforeEach(() => {
         square = new Square({ label: SOME_LABEL, side: SOME_SIDE_LENGTH });
+    });
+
+    describe('type', () => {
+        test('it should be a class', () => {
+            expect(Square.toString()).toContain('class Square');
+        });
     });
 
     describe('constructor', () => {
@@ -135,6 +147,12 @@ describe('triangle polygon', () => {
             label: SOME_LABEL,
             base: SOME_BASE_LENGTH,
             height: SOME_HEIGHT_LENGTH,
+        });
+    });
+
+    describe('type', () => {
+        test('it should be a class', () => {
+            expect(Triangle.toString()).toContain('class Triangle');
         });
     });
 
