@@ -13,7 +13,7 @@ describe('Prototype', () => {
             expect(Object.getPrototypeOf(myObject)).toEqual(myObject.__proto__);
         });
 
-        test('in keyword looks if the property exists in the object or in the prototype chain', () => {
+        test('"in" keyword looks if the property exists in the object or in the prototype chain', () => {
             const anotherObject = {
                 a: 2,
             };
@@ -60,10 +60,13 @@ describe('Prototype', () => {
                 a: 2,
             };
 
+            // Read Only properties
             Object.defineProperty(firstObject, 'readOnly', {
                 writable: false,
                 value: 'firstValue',
             });
+
+            // Setter properties
             Object.defineProperty(firstObject, 'setter', {
                 set: function(value) {
                     this.setValue = value;
@@ -80,6 +83,8 @@ describe('Prototype', () => {
 
             // If a property is read-only, you can not override it in the new object. With strict mode it will throw an exception
             expect(myObject.readOnly).toEqual('firstValue');
+
+            // If a property is a setter, it executes the set function instead of assigning the value
             expect(myObject.setValue).toEqual('mySetValue');
             expect(myObject.setter).toBeUndefined();
             expect(
@@ -132,8 +137,8 @@ describe('Prototype', () => {
                 this.name = name;
             }
 
-            var a = new Foo('a');
-            var b = new Foo('b');
+            let a = new Foo('a');
+            let b = new Foo('b');
 
             Foo.prototype.myName = function() {
                 return this.name;
@@ -150,8 +155,8 @@ describe('Prototype', () => {
 
             Foo.prototype = {}; // create a new prototype object
 
-            var a1 = new Foo();
-            var b1 = new Bar();
+            let a1 = new Foo();
+            let b1 = new Bar();
 
             // If we use the default prototype, the constructor is equals to the function
             expect(b1.constructor).toEqual(Bar);
@@ -163,8 +168,8 @@ describe('Prototype', () => {
             expect(a1.constructor).toEqual(Object);
             expect(Foo.prototype.hasOwnProperty('constructor')).toBeFalsy();
 
-            // a1 can access to the constructor property because is in its prototype
-            expect(a1.constructor.hasOwnProperty('constructor')).toBeFalsy();
+            // b1 can access to the constructor property because is in its prototype
+            expect(b1.constructor.hasOwnProperty('constructor')).toBeFalsy();
         });
     });
 
@@ -202,6 +207,9 @@ describe('Prototype', () => {
             // We can check if an instance is of some class of the chain with instanceof
             expect(worker instanceof Worker).toBeTruthy();
             expect(worker instanceof Person).toBeTruthy();
+
+            // worker.constructor is equal to Person because the prototype created with Object.create
+            // does not have constructor property, and it gets this property from Person using the prototype
             expect(worker.constructor).toEqual(Person);
         });
 
