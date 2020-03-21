@@ -169,7 +169,7 @@ describe('Prototype', () => {
             expect(Foo.prototype.hasOwnProperty('constructor')).toBeFalsy();
 
             // b1 can access to the constructor property because is in its prototype
-            expect(b1.constructor.hasOwnProperty('constructor')).toBeFalsy();
+            expect(b1.hasOwnProperty('constructor')).toBeFalsy();
         });
     });
 
