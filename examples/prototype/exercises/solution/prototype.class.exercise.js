@@ -37,13 +37,35 @@ export class Square extends Polygon {
 
     properties() {
         return {
-            label: this.label,
+            ...super.properties(),
             side: this.side,
         };
     }
 }
 
-export class Triangle {}
+export class Triangle extends Polygon {
+    constructor({ label, base, height }) {
+        super(label);
+
+        guardFromInvalidNumber('base', base);
+        guardFromInvalidNumber('height', height);
+
+        this.base = base;
+        this.height = height;
+    }
+
+    area() {
+        return (this.base * this.height) / 2;
+    }
+
+    properties() {
+        return {
+            ...super.properties(),
+            base: this.base,
+            height: this.height,
+        };
+    }
+}
 
 function guardFromInvalidNumber(name, value) {
     if (typeof value !== 'number') {
